@@ -174,7 +174,7 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
 @media print {
   body{
     background:#fff !important;
-    font-size:12.5px;
+    font-size:12px;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
   }
@@ -182,40 +182,87 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
   .rail{display:none}
   .main{max-width:none;padding:0}
 
-  /* every section prints, one per page */
-  .view{display:block !important;animation:none !important;page-break-after:always;break-after:page}
-  .view:last-of-type{page-break-after:auto;break-after:auto}
-  .view{page-break-inside:auto}
+  /* sections flow instead of each claiming a page */
+  .view{
+    display:block !important;animation:none !important;
+    page-break-after:auto;break-after:auto;
+    margin-top:12px;padding-top:10px;border-top:1px solid var(--hair-2);
+  }
+  .view:first-of-type{margin-top:0;padding-top:0;border-top:0}
 
-  h1{font-size:30px;margin-bottom:14px}
-  h2.vh{font-size:23px}
-  .standfirst{font-size:14.5px;max-width:none;margin-bottom:22px}
-  .vnote{font-size:13.5px;max-width:none;margin-bottom:20px}
+  /* three chapters: the grid, the seats, the reference */
+  /* no forced chapter breaks — sections flow, hairlines separate them */
 
-  /* keep blocks from splitting mid-element */
-  .seatcard,.hint,.allnote,.faqitem,.uses{break-inside:avoid;page-break-inside:avoid}
-  .gridwrap,.beyond{break-inside:auto;page-break-inside:auto}
-  table.g{min-width:0;font-size:11.5px}
-  table.g thead th{padding:14px 8px 12px}
+  /* never strand a heading at the foot of a page */
+  .vkick,h1,h2.vh,.useslab{break-after:avoid;page-break-after:avoid}
+
+  h1{font-size:24px;margin-bottom:9px}
+  h2.vh{font-size:19px;margin-bottom:7px}
+  .standfirst{font-size:12px;max-width:none;margin-bottom:13px;line-height:1.45}
+  .vnote{font-size:11.5px;max-width:none;margin-bottom:9px;line-height:1.45}
+  .vkick{margin-bottom:8px}
+
+  /* keep small blocks whole; let long ones flow */
+  .seatcard,.hint,.allnote,.faqitem,.beyondtile,.uses{break-inside:avoid;page-break-inside:avoid}
+  #v-full,#v-meeting,#v-agents,#v-support,#v-credits{break-inside:avoid;page-break-inside:avoid}
+  /* keep the floor section whole so it moves to the next page rather than orphaning its heading */
+  #v-baseline{break-inside:avoid;page-break-inside:avoid}
+  /* start the appendix on a fresh page so its heading sits with the matrix */
+  #v-matrix{page-break-before:always;break-before:page;margin-top:0;padding-top:0;border-top:0}
+  /* breathing room between the matrix and the closing section */
+  #v-billing{margin-top:30px;padding-top:24px}
+  .faq{break-inside:avoid;page-break-inside:avoid}
+  .gridwrap,.beyond,.faq{break-inside:auto;page-break-inside:auto}
+
+  /* two-up seat cards — the print width otherwise trips the mobile breakpoint */
+  .seatcard{grid-template-columns:1fr 1fr !important;gap:20px;padding:11px 16px 13px;box-shadow:none}
+  .seatcard li{font-size:11px;line-height:1.4}
+  /* Full's 'Stops at' is one line — reclaim the space so its card is half as tall */
+  #v-full .seatcard{grid-template-columns:2.6fr 1fr !important}
+  #v-full .does ul{columns:2;column-gap:18px}
+  #v-full .does li{break-inside:avoid;-webkit-column-break-inside:avoid}
+  .seatcard ul{gap:5px}
+  .seatcard h5{margin-bottom:9px;padding-bottom:6px}
+
+  table.g{min-width:0;font-size:10.5px}
   table.g thead{display:table-header-group}
+  table.g thead th{padding:9px 8px 8px}
   table.g tbody tr{break-inside:avoid;page-break-inside:avoid}
-  table.g tbody tr.grow td{padding:9px 8px}
-  table.g tbody tr.grow td.lab{font-size:11.5px;padding-left:16px}
-  .gname{font-size:14.5px}
-  .gwho{font-size:10px;max-width:17ch}
+  table.g tbody tr.grow td{padding:4.5px 8px}
+  table.g tbody tr.grow td.lab{font-size:10.5px;padding-left:16px;line-height:1.35}
+  table.g tbody tr.gcat td{padding:5px 16px}
+  .gname{font-size:13px}
+  .gwho{font-size:9px;max-width:19ch;line-height:1.35}
   .gscroll,.mscroll{overflow:visible}
-
-  .use{font-size:11px;padding:5px 10px;box-shadow:none}
-  .seatcard{box-shadow:none;padding:20px 22px}
-  .seatcard li{font-size:12px}
-  .faqitem{box-shadow:none;padding:16px 20px}
   .gridwrap{box-shadow:none}
+
+  .uses{gap:4px;margin-bottom:9px}
+  .use{font-size:10px;padding:3.5px 8px;box-shadow:none}
+  .allnote{padding:9px 14px;margin-bottom:10px}
+  .allnote p{font-size:11.5px;line-height:1.45}
+  .hint{padding:13px 17px;margin-top:12px}
+  .hint p{font-size:12.5px}
+
+  .faq{gap:9px}
+  .faqitem{box-shadow:none;padding:14px 18px}
+  .faqitem h4{font-size:14px;margin-bottom:5px}
+  .faqitem p{font-size:12px}
+
+  .beyondtile{padding:15px 17px}
+  .beyondtile h4{font-size:13px}
+  .beyondtile p{font-size:11.5px}
+
   details.deep{box-shadow:none}
   details.deep>summary{display:none}
-  table.mx{min-width:0;font-size:11px}
+  table.mx{min-width:0;font-size:10.5px}
   table.mx thead{display:table-header-group}
+  table.mx thead th{padding:11px 8px}
   table.mx tbody tr{break-inside:avoid}
+  table.mx tbody tr.act td{padding:7px 8px}
+  table.mx tbody tr.act td:first-child{padding-left:16px}
+  table.mx tbody tr.cat td{padding:6px 16px}
 
+  .foot{margin-top:26px;padding-top:16px;font-size:11px}
   a{color:inherit;text-decoration:none}
   .allnote a{text-decoration:underline}
 }
@@ -327,7 +374,6 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
     <div class="beyondtile"><h4>Notes and tasks</h4><p>Shared notes and tasks across the firm.</p></div>
     <div class="beyondtile"><h4>Connections hold</h4><p>Your integrations stay connected on every seat; what a seat can do with them still applies.</p></div>
     <div class="beyondtile"><h4>Never metered</h4><p>Meeting prep, notes, transcripts, agendas, and client snapshots are always free.</p></div>
-    <div class="beyondtile is-wide"><h4>Compliance doesn't lapse</h4><p>Retention, consent, and access controls stay switched on through a trial or a billing freeze — they never drop away with the licence.</p></div>
   </div>
 </section>
 
