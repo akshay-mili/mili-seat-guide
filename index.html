@@ -66,6 +66,54 @@ h2.vh{font-size:31px;font-weight:700;margin:0 0 12px;letter-spacing:-.032em;colo
 .blk h2{font-size:26px;font-weight:700;margin:0 0 10px;letter-spacing:-.03em;color:var(--ink);line-height:1.18}
 .blk .lede{font-size:15px;color:var(--ink-2);margin:0 0 22px;max-width:70ch;line-height:1.55}
 
+
+/* ── seat plot ─────────────────────────────────────────── */
+.plot{background:var(--card);border:1px solid var(--hair);border-radius:16px;
+box-shadow:var(--lift);padding:26px 30px 22px;margin-bottom:18px}
+.plot svg{width:100%;height:auto;display:block}
+.ax{stroke:var(--hair-2);stroke-width:1.5;stroke-linecap:round}
+.axtick{stroke:var(--hair-2);stroke-width:1.5;stroke-linecap:round}
+.axlab{font-family:var(--mono);font-size:12px;letter-spacing:.1em;fill:var(--muted)}
+.halo{opacity:.15}
+.ping{opacity:0;transform-box:fill-box;transform-origin:center;
+animation:ping 3s cubic-bezier(.22,.61,.36,1) infinite}
+.is-full .ping{animation-delay:0s}
+.is-meeting .ping{animation-delay:.75s}
+.is-agents .ping{animation-delay:1.5s}
+.is-support .ping{animation-delay:2.25s}
+@keyframes ping{
+ 0%{transform:scale(.55);opacity:.42}
+ 65%{transform:scale(1.9);opacity:0}
+ 100%{transform:scale(1.9);opacity:0}
+}
+@media(prefers-reduced-motion:reduce){.ping{animation:none;opacity:0}}
+.pname{font-family:var(--sans);font-size:19px;font-weight:700;fill:var(--ink);letter-spacing:-.022em}
+.pdesc{font-family:var(--sans);font-size:12.5px;fill:var(--ink-2)}
+.pfree{fill:var(--free);font-weight:700}
+.is-full circle{fill:var(--accent-deep)}
+.is-meeting circle{fill:var(--accent-light)}
+.is-agents circle{fill:var(--accent)}
+.is-support circle{fill:var(--free)}
+
+.seatdefs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:18px}
+.sd{background:var(--card);border:1px solid var(--hair);border-radius:14px;box-shadow:var(--lift);
+padding:16px 18px 14px;display:flex;flex-direction:column;text-decoration:none;color:inherit;
+transition:box-shadow .18s,border-color .18s,transform .18s}
+.sd:hover{box-shadow:var(--lift-2);border-color:var(--accent-light);transform:translateY(-2px)}
+.sd:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sdhead{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.sddot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+.sd.is-full .sddot{background:var(--accent-deep)}
+.sd.is-meeting .sddot{background:var(--accent-light)}
+.sd.is-agents .sddot{background:var(--accent)}
+.sd.is-support .sddot{background:var(--free)}
+.sdname{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.024em;line-height:1.2}
+.sdfree{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+color:var(--free);background:var(--free-wash);border-radius:5px;padding:3px 6px;line-height:1.3}
+.sd p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.sdgo{margin-top:auto;padding-top:11px;font-size:11.5px;font-weight:600;color:var(--accent-deep)}
+.sd:hover .sdgo{color:var(--accent)}
+
 /* ── seat comparison grid ──────────────────────────────── */
 .gridwrap{background:var(--card);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--lift);overflow:hidden}
 .gscroll{overflow-x:auto}
@@ -203,14 +251,20 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
   .vkick{margin-bottom:8px}
 
   /* keep small blocks whole; let long ones flow */
+  .plot{break-inside:avoid;page-break-inside:avoid;box-shadow:none;padding:16px 20px 12px}
+  .ping{display:none}  /* static dots on paper */
+  /* cards: 2x2 in print rather than an awkward 3 + 1 */
+  .seatdefs{grid-template-columns:1fr 1fr !important;gap:10px;break-inside:avoid;page-break-inside:avoid}
+  .sd{box-shadow:none;padding:13px 16px 12px;break-inside:avoid}
+  .sd p{font-size:11.5px;line-height:1.45}
+  .sdname{font-size:14.5px}
+  .sdgo{display:none}
   .seatcard,.hint,.allnote,.faqitem,.beyondtile,.uses{break-inside:avoid;page-break-inside:avoid}
   #v-full,#v-meeting,#v-agents,#v-support,#v-credits{break-inside:avoid;page-break-inside:avoid}
   /* keep the floor section whole so it moves to the next page rather than orphaning its heading */
   #v-baseline{break-inside:avoid;page-break-inside:avoid}
   /* start the appendix on a fresh page so its heading sits with the matrix */
   #v-matrix{page-break-before:always;break-before:page;margin-top:0;padding-top:0;border-top:0}
-  /* breathing room between the matrix and the closing section */
-  #v-billing{margin-top:30px;padding-top:24px}
   .faq{break-inside:avoid;page-break-inside:avoid}
   .gridwrap,.beyond,.faq{break-inside:auto;page-break-inside:auto}
 
@@ -281,7 +335,6 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
   <a href="#baseline" data-v="baseline">On every seat</a>
   <a href="#credits" data-v="credits">Usage limits</a>
   <a href="#matrix" data-v="matrix">Full matrix</a>
-  <a href="#billing" data-v="billing">How it's billed</a>
 </aside>
 
 <main class="main">
@@ -290,15 +343,68 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
 <section class="view on" id="v-choose">
   <p class="vkick">Seat guide · For advisory firms</p>
   <h1>How do I choose the right seat?</h1>
-  <p class="standfirst">Everyone at your firm can create meetings, run prep, work on the notes, and sync to your systems of record. What changes between seats is how far Mili goes beyond that — from answering questions and looking things up, to doing the work itself: researching a prospect, building a planning report, drafting the email, filling the form — and writing the result back into your systems. Support seats are typically free, so in most cases it is only the advisors and producers you are counting.</p>
+  <p class="standfirst">Everyone at your firm can create meetings, run prep, work on the notes, and sync to your systems of record. What changes between seats is how far Mili goes beyond that — from answering questions and looking things up from your notes and integrations, to doing the work itself: researching a prospect, building a planning report, drafting the email, filling the form — and writing the result back into your systems. Support seats are free, so it is only the advisors and producers you are counting.</p>
 
-  <div class="gridwrap">
-    <div class="gscroll">
-      <table class="g">
-        <thead><tr><th class="lab"></th><th class=""><div class="gname">Full</div><div class="gwho">Everything Mili does</div></th><th class=""><div class="gname">Meeting</div><div class="gwho">Run meetings, prep, and ask everyday questions</div></th><th class=""><div class="gname">Agents</div><div class="gwho">Everything but running live meetings</div></th><th class="is-free"><div class="gname">Support</div><div class="gwho">Meeting prep, setup, and record keeping</div><span class="gfree">Typically free</span></th></tr></thead>
-        <tbody><tr class="gcat"><td colspan="5">Meetings</td></tr><tr class="grow"><td class="lab">Create meetings</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr><tr class="grow"><td class="lab">Run meeting prep and build agendas</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr><tr class="grow"><td class="lab">Work on the notes, and sync to systems of record</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr><tr class="grow"><td class="lab">Live notetaking</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Client insights and meeting analytics</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class="is-free"><span class="dash"></span></td></tr><tr class="gcat"><td colspan="5">Asking and looking up</td></tr><tr class="grow"><td class="lab">Ask questions in the chat window</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Look up clients, portfolios, and documents</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="gcat"><td colspan="5">Mili doing the work</td></tr><tr class="grow"><td class="lab">Research prospects and prepare for new business</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Build planning reports — tax, estate, divorce and more</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Draft and send email, schedule meetings</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Produce documents, decks, spreadsheets, and filled forms</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Run it on a schedule, without being asked</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="gcat"><td colspan="5">Writing back</td></tr><tr class="grow"><td class="lab">Update the CRM from a meeting's notes</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td></tr><tr class="grow"><td class="lab">Write to your CRM and drives from the chat window</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr><tr class="grow"><td class="lab">Send for e-signature</td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class=""><span class="dash"></span></td><td class=""><svg class="ck" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td><td class="is-free"><span class="dash"></span></td></tr></tbody>
-      </table>
-    </div>
+  <div class="plot">
+    <svg viewBox="0 0 860 420" role="img" aria-label="Mili seats plotted by agent access against live notetaking">
+      <line class="ax" x1="150" y1="200" x2="710" y2="200"/>
+      <line class="ax" x1="430" y1="45" x2="430" y2="355"/>
+      <line class="axtick" x1="150" y1="192" x2="150" y2="208"/>
+      <line class="axtick" x1="710" y1="192" x2="710" y2="208"/>
+      <line class="axtick" x1="422" y1="45" x2="438" y2="45"/>
+      <line class="axtick" x1="422" y1="355" x2="438" y2="355"/>
+      <text class="axlab" x="140" y="205" text-anchor="end">ALL AGENTS</text>
+      <text class="axlab" x="720" y="205" text-anchor="start">MEETING AGENTS</text>
+      <text class="axlab" x="430" y="26" text-anchor="middle">NOTETAKING</text>
+      <text class="axlab" x="430" y="386" text-anchor="middle">NO NOTETAKING</text>
+      <g class="pt is-full">
+        <circle class="ping" cx="280" cy="132" r="21"/>
+        <circle class="halo" cx="280" cy="132" r="21"/>
+        <circle cx="280" cy="132" r="9"/>
+        <text class="pname" x="280" y="104" text-anchor="middle">Full</text>
+      </g>
+      <g class="pt is-meeting">
+        <circle class="ping" cx="580" cy="132" r="21"/>
+        <circle class="halo" cx="580" cy="132" r="21"/>
+        <circle cx="580" cy="132" r="9"/>
+        <text class="pname" x="580" y="104" text-anchor="middle">Meeting</text>
+      </g>
+      <g class="pt is-agents">
+        <circle class="ping" cx="280" cy="268" r="21"/>
+        <circle class="halo" cx="280" cy="268" r="21"/>
+        <circle cx="280" cy="268" r="9"/>
+        <text class="pname" x="280" y="304" text-anchor="middle">Agents</text>
+      </g>
+      <g class="pt is-support">
+        <circle class="ping" cx="580" cy="268" r="21"/>
+        <circle class="halo" cx="580" cy="268" r="21"/>
+        <circle cx="580" cy="268" r="9"/>
+        <text class="pname" x="580" y="304" text-anchor="middle">Support</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="seatdefs">
+    <a class="sd is-full" href="#full" data-v="full">
+      <span class="sdhead"><span class="sddot"></span><span class="sdname">Full</span></span>
+      <p>Runs the meeting and does everything that follows — every agent, every document, written back into your systems.</p>
+      <span class="sdgo">See the seat &rsaquo;</span>
+    </a>
+    <a class="sd is-meeting" href="#meeting" data-v="meeting">
+      <span class="sdhead"><span class="sddot"></span><span class="sdname">Meeting</span></span>
+      <p>Runs the meeting end to end, and answers everyday questions from your notes, clients, and connected systems.</p>
+      <span class="sdgo">See the seat &rsaquo;</span>
+    </a>
+    <a class="sd is-agents" href="#agents" data-v="agents">
+      <span class="sdhead"><span class="sddot"></span><span class="sdname">Agents</span></span>
+      <p>Produces the research, plans, documents and emails behind a meeting, and files the results. Not in the room.</p>
+      <span class="sdgo">See the seat &rsaquo;</span>
+    </a>
+    <a class="sd is-support" href="#support" data-v="support">
+      <span class="sdhead"><span class="sddot"></span><span class="sdname">Support</span><span class="sdfree">Free</span></span>
+      <p>Sets meetings up, runs prep, and keeps records current — without asking Mili to produce work.</p>
+      <span class="sdgo">See the seat &rsaquo;</span>
+    </a>
   </div>
 
   <div class="hint">
@@ -351,8 +457,8 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
 <section class="view is-freeseat" id="v-support">
   <p class="vkick">Seat</p>
   <h2 class="vh">Support seat</h2>
-  <div class="badges badges-lg"><span class="b b-free">Typically free</span></div>
-  <p class="vnote">Meetings, prep, and keeping records current, without Mili producing work. Useful for anyone who needs to be in Mili alongside the people it works for. Typically free, however many you add.</p>
+  <div class="badges badges-lg"><span class="b b-free">Free</span></div>
+  <p class="vnote">Meetings, prep, and keeping records current, without Mili producing work. Useful for anyone who needs to be in Mili alongside the people it works for. Free, however many you add.</p>
   <p class="useslab">What this seat is used for</p>
   <div class="uses"><span class="use">Create meetings</span><span class="use">Meeting prep</span><span class="use">Prep documents</span><span class="use">Update CRM from notes</span><span class="use">Notes &amp; tasks</span><span class="use">Compliance</span></div>
   <div class="seatcard is-free">
@@ -383,9 +489,9 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
   <h2 class="vh">The only thing that's metered</h2>
   <p class="vnote">Seats where Mili does the work — Full and Agents — carry a monthly credit allowance. Nothing else in the platform draws it down.</p>
   <div class="faq">
-    <div class="faqitem"><h4>What spends a credit</h4><p>A successful Office ask, or an automation run. <b>Follow-on questions to that same ask don't spend another</b> — one credit covers the exchange, not each turn in it.</p></div>
+    <div class="faqitem"><h4>What spends a credit</h4><p>Every question you ask Mili, and every automation run.</p></div>
     <div class="faqitem"><h4>How many</h4><p><b>100 credits a month per person</b> on Full and Agents seats.</p></div>
-    <div class="faqitem"><h4>What never spends one</h4><p>Meeting prep, notes, transcripts, agendas, and client snapshots — plus anything that fails or comes back empty. These are free on every seat.</p></div>
+    <div class="faqitem"><h4>What never spends one</h4><p>Anything to do with a meeting — prep, notes, transcripts, agendas, and client snapshots. Free on every seat, however much you use them.</p></div>
     <div class="faqitem"><h4>Meeting and Support seats</h4><p>No allowance, because there's nothing on those seats that draws any credit.</p></div>
 
   </div>
@@ -410,20 +516,9 @@ table.mx tbody tr.act td .fn{color:var(--muted);font-size:11px}
   </details>
 </section>
 
-<!-- BILLING -->
-<section class="view" id="v-billing">
-  <p class="vkick">Reference</p>
-  <h2 class="vh">How it's billed</h2>
-  <p class="vnote">You choose seats, person by person. Behind that, we group seats into two plans — it decides how your account is invoiced, not what anyone can do.</p>
-  <div class="beyond two">
-    <div class="beyondtile"><h4>Mili Accelerate</h4><p>An account made up of Meeting and Support seats only.</p></div>
-    <div class="beyondtile"><h4>Mili Operate</h4><p>Any account with at least one Full or Agents seat. All four seat types can be mixed.</p></div>
-    <div class="beyondtile is-wide"><h4>You don't need to pick one</h4><p>Adding a single Full or Agents seat moves the account to Operate automatically. Nobody's access changes when it does — each person keeps exactly what their own seat allows. Support seats stay complimentary either way.</p></div>
-  </div>
-</section>
-
 <div class="foot">
-  <p>Admin, Admin-lite, and Member are account roles, set separately from seats. They control who can administer the account, not what Mili can do for someone.</p>
+  <p><b>Support seats are free on every plan except Meeting Starter</b>, where they are paid. Meeting Starter also caps live meetings at 30 a month.</p>
+  <p style="margin-top:10px">Admin and Member are account roles, set separately from seats. They control who can administer the account, not what Mili can do for someone.</p>
 </div>
 
 </main>
@@ -486,13 +581,14 @@ DATA.forEach(function(g){
 document.querySelector("#mx tbody").innerHTML=h;
 
 var links=document.querySelectorAll(".rail a");
+var navs=document.querySelectorAll("[data-v]");
 function show(v){
   document.querySelectorAll(".view").forEach(function(s){s.classList.remove("on")});
   var t=document.getElementById("v-"+v); if(t)t.classList.add("on");
   links.forEach(function(a){a.classList.toggle("on",a.dataset.v===v)});
   window.scrollTo(0,0);
 }
-links.forEach(function(a){
+navs.forEach(function(a){
   a.addEventListener("click",function(e){e.preventDefault();show(a.dataset.v);history.replaceState(null,"","#"+a.dataset.v);});
 });
 var init=(location.hash||"").replace("#","");
